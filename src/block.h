@@ -8,7 +8,7 @@ struct _Block {
 	/* Da li je zid ili je staza.
        ": 1" oznacava da nam je za spremanje
        atributa portreban samo jedan bajt memorije */
-	BOOL isWall : 1;
+	BOOL isWall;
 	/* Pokazivac na teksturu
 	   Koristimo pokazivac jer nema razloga da trosimo memoriju
 		 svaki put kad inicijaliziramo novi blok ako ce se vecina

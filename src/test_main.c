@@ -1,10 +1,12 @@
 #include "debug.h"
 
-#include "color.h"
+#include "generator.h"
+
+#include <stdio.h>
 
 int main() {
-    Color boja = setColor(0, 1, 2);
-    printColor(boja);
-    //printf("Test zavrsen.\n");
+    Grid newGrid = generateMaze(20, 20);
+    printMaze(&newGrid);
+    printf("Test zavrsen.\n");
     return 0;
 }
