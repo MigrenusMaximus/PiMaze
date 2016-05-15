@@ -8,8 +8,13 @@
 
 /* Debug only - izbrisati */
 #include <stdio.h>
+#define DEBUG
 
 Grid generateMaze(int height, int width) {//, Texture* wallTexture) {
+                      /*      U  R     D            L */
+    int rowMask[9]    = { 0, -1, 0, 0, +1, 0, 0, 0, 0 };
+    int columnMask[9] = { 0, 0, +1, 0, 0, 0, 0, 0, -1 };
+    
     srand(time(NULL));
     
     Block** blocks;
@@ -51,10 +56,18 @@ Grid generateMaze(int height, int width) {//, Texture* wallTexture) {
     stackInit(&stack, height * width);
     /* Otvaramo prvu celiju */
     blocks[currentRow][currentColumn].isWall = -1; /* DEBUG */ 
-    
+    #ifdef DEBUG
     printf("Starting cell: (%d, %d)\n", currentRow, currentColumn);
-    printf("Starting direction: %d\n", startingDirection);
-    
+    printf("Starting direction: ");
+    if (startingDirection == UP)
+        printf("UP\n");
+    if (startingDirection == DOWN)
+        printf("DOWN\n");
+    if (startingDirection == LEFT)
+        printf("LEFT\n");
+    if (startingDirection == RIGHT)
+        printf("RIGHT\n");
+    #endif
     /* Petlja se izvrsava dok ne posjetimo sve celije
        iako se ovaj exit condition nikada ne bi trebao
        triggerovati */
@@ -62,24 +75,50 @@ Grid generateMaze(int height, int width) {//, Texture* wallTexture) {
         /* U directions drzimo smjerove u kojima se
            algoritam smije kretati */
         Direction directions = startingDirection;
-        startingDirection = NONE;
         /* Ako je directions razlicit od NONE,
            znaci da nam je postavljen startingDirection */
         if (!directions) {
             /* Iskljucujemo rubne blokove jer zelimo ostaviti vanjski zid */
-            if (currentRow > 2 && blocks[currentRow - 2][currentColumn].isWall == 2) {
+            if (currentRow > 1 && blocks[currentRow - 1][currentColumn].isWall == 2) {
                 directions |= UP;
             }
-            if (currentRow < height - 2 && blocks[currentRow + 2][currentColumn].isWall == 2) {
+            if (currentRow < height - 1 && blocks[currentRow + 1][currentColumn].isWall == 2) {
                 directions |= DOWN;
             }
-            if (currentColumn > 2 && blocks[currentRow][currentColumn - 2].isWall == 2) {
+            if (currentColumn > 1 && blocks[currentRow][currentColumn - 1].isWall == 2) {
                 directions |= LEFT;
             }
-            if (currentColumn < width - 2 && blocks[currentRow][currentColumn + 2].isWall == 2) {
+            if (currentColumn < width - 1 && blocks[currentRow][currentColumn + 1].isWall == 2) {
                 directions |= RIGHT;
             }
         }
+        
+        //if (!startingDirection) {
+            printf("Iteration: %d:\n", visitedCells);
+            for (int i = 1; i < 9; i = i << 1   ) {
+                if (!(directions & i) 
+                    && blocks[currentRow - rowMask[i]][currentColumn - columnMask[i]].isWall == 2) {
+                    printf("    (%d) %d, %d\n", i, currentRow - rowMask[i], currentColumn - columnMask[i]);
+                    blocks[currentRow - rowMask[i]][currentColumn - columnMask[i]].isWall = TRUE;
+                }
+            }
+        //}
+        
+        startingDirection = NONE;
+        
+        #ifdef DEBUG
+        printf("Current cell: (%d, %d) | Directions: ", currentRow, currentColumn);
+        if (directions & UP)
+            printf("UP ");
+        if (directions & DOWN)
+            printf("DOWN ");
+        if (directions & LEFT)
+            printf("LEFT ");
+        if (directions & RIGHT)
+            printf("RIGHT ");
+        if (!directions)
+            printf("NONE\n");
+        #endif
         
         /* Ako nema neposjecenih komsija provjeravamo
            da li postoji ijedna celija da ih ima na steku */
@@ -102,31 +141,38 @@ Grid generateMaze(int height, int width) {//, Texture* wallTexture) {
                    novi smjer */
                 newDirection = 1 << (rand() % 4);
                 /* Provjeravamo da li smo dobili jedan od mogucih smjerova */
-            } while(!(newDirection &= directions));
+            } while(!(newDirection & directions));
             /* Trenutnu celiju postavljamo na stazu */
             //blocks[currentRow][currentColumn].isWall = FALSE;
             /* Trenutnu celiju smjestamo na stek */
             push(&stack, currentRow * width + currentColumn);
+            #ifdef DEBUG
+            printf("| New direction: %d\n", newDirection); /* DEBUG */
+            #endif
             /* Odredjujemo novu trenutnu celiju */
             switch(newDirection) {
                 case UP:
-                    currentRow -= 2;
+                    currentRow -= 1;
                     blocks[currentRow + 1][currentColumn].isWall = FALSE;
+                    //printf("UP\n");
                     //printf("Izbrisan zid na (%d, %d)\n", currentRow + 1, currentColumn);
                     break;
                 case RIGHT:
-                    currentColumn += 2;
+                    currentColumn += 1;
                     blocks[currentRow][currentColumn - 1].isWall = FALSE;
+                    //printf("RIGHT\n");
                     //printf("Izbrisan zid na (%d, %d)\n", currentRow, currentColumn - 1);
                     break;
                 case DOWN:
-                    currentRow += 2;
+                    currentRow += 1;
                     blocks[currentRow - 1][currentColumn].isWall = FALSE;
+                    //printf("DOWN\n");
                     //printf("Izbrisan zid na (%d, %d)\n", currentRow - 1, currentColumn);
                     break;
                 case LEFT:
-                    currentColumn -= 2;
+                    currentColumn -= 1;
                     blocks[currentRow][currentColumn + 1].isWall = FALSE;
+                    //printf("LEFT\n");
                     //printf("Izbrisan zid na (%d, %d)\n", currentRow, currentColumn - 1);
                     break;
                 default:
@@ -137,7 +183,7 @@ Grid generateMaze(int height, int width) {//, Texture* wallTexture) {
             blocks[currentRow][currentColumn].isWall = FALSE;
         }
         /* Inkrementiramo brojac posjecenih celija */
-        //visitedCells += 1;
+        visitedCells += 1;
     }
     
     /* Nakon sto smo napravili put kroz labirint

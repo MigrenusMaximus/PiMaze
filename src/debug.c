@@ -14,7 +14,7 @@ void printMaze(Grid *maze) {
                 printf("S");
                 continue;
             }
-            printf("%c", (maze->blocks[i][j].isWall == TRUE ? '.' : ' '));
+            printf("%c", (maze->blocks[i][j].isWall == TRUE ? 'W' : ' '));
         }
         printf("\n");
         //printf("\n");        
