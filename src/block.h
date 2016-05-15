@@ -2,25 +2,23 @@
 #define __BLOCK_H__
 
 #include "definitions.h"
-
-struct _Texture {
-	/* Visina teksture */
-	int height;
-	/* Sirina teksture */
-	int width;
-	/* Matricna reprezentacija teksture */
-	Color** colorMap;
-};
-
-typedef struct _Texture Texture;
+#include "texture.h"
 
 struct _Block {
-	/* Da li je zid ili je staza */
-	BOOL isWall;
-	/* Tekstura */
-	Texture texture;
+	/* Da li je zid ili je staza.
+       ": 1" oznacava da nam je za spremanje
+       atributa portreban samo jedan bajt memorije */
+	BOOL isWall : 1;
+	/* Pokazivac na teksturu
+	   Koristimo pokazivac jer nema razloga da trosimo memoriju
+		 svaki put kad inicijaliziramo novi blok ako ce se vecina
+		 tekstra reusati.
+	*/
+	Texture* texture;
 };
 
 typedef struct _Block Block;
+
+Block setBlock(BOOL isWall, Texture* texture);
 
 #endif

@@ -1,8 +1,6 @@
 #ifndef __COLOR_H__
 #define __COLOR_H__
 
-#include <stdio.h>
-
 #include "definitions.h"
 
 /*  
@@ -16,10 +14,6 @@ struct _Color {
 	char green;
 	char blue;
 };
-
-/*
- *  Definisanje strukture kao tipa
- */
 
 typedef struct _Color Color;
 

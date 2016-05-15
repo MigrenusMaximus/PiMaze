@@ -9,12 +9,16 @@
  *	ili manjka istih 
  */
 struct _Grid {
+	/* Visina u blokovima */
+	int height;
 	/* Sirina u blokovima */
 	int width;
-	/* Visina u blokovima */
-	int length;
 	/* Matrica blokova */
 	Block** blocks;
 };
+
+typedef struct _Grid Grid;
+
+Grid setGrid(int height, int width, Block** blocks);
 
 #endif
