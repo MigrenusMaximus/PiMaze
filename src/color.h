@@ -17,15 +17,7 @@ struct _Color {
 
 typedef struct _Color Color;
 
-/*
- *  TODO: Dodati predefinisane boje
- */
- 
- /*
-  *  Deklaracije funckija
-  */
-
-/* Shorthand za postavljanje komponenti boje */
+/* Konstruktor za boju */
 Color setColor(char red, char green, char blue);
 
 #endif
