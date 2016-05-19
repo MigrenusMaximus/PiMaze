@@ -28,6 +28,26 @@ int main(int argc, char** argv) {
     
     Color boje[4];// = { boja1, boja2, boja3, boja4 };
     
+    Color zemlja = { 150, 150, 150 };
+    Color nebo   = { 150, 150, 255 };
+    
+    for (int i = 0; i < height / 3; i++) {
+        for (int j = 0; j < width; j++) {
+            ppm.red[i * width + j]   = nebo.red;
+            ppm.green[i * width + j] = nebo.green;
+            ppm.blue[i * width + j]  = nebo.blue;
+        }
+    }
+    
+    for (int i = height / 3 - 1; i < height; i++) {
+        for (int j = 0; j < width; j++) {            
+            ppm.red[i * width + j]   = zemlja.red;
+            ppm.green[i * width + j] = zemlja.green;
+            ppm.blue[i * width + j]  = zemlja.blue;
+        }
+    }
+    
+    /*
     for (int i = 0; i < 4; i++)
         boje[i] = setColor(rand() % 255, rand() % 255, rand() % 255);
     
@@ -49,7 +69,7 @@ int main(int argc, char** argv) {
             ppm.blue[i * width + j] = boje[boj].blue;                    
         }
     }
-    
+    */
     //setPPMColor(&ppm, boja);
     /*
     for (int i = 0; i < height; i++) {
