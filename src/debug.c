@@ -10,11 +10,11 @@ void printColor(Color color) {
 void printMaze(Grid *maze) {
     for (int i = 0; i < maze->height; i++) {
         for (int j = 0; j < maze->width; j++) {
-            if(maze->blocks[i][j].isWall == -1) {
+            if(maze->blocks[i * maze->width + j].isWall == -1) {
                 printf("S");
                 continue;
             }
-            printf("%c", (maze->blocks[i][j].isWall == TRUE ? 'W' : ' '));
+            printf("%c", (maze->blocks[i * maze->width + j].isWall == TRUE ? '+' : ' '));
         }
         printf("\n");
         //printf("\n");        

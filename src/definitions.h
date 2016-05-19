@@ -17,4 +17,6 @@ enum _Direction {
 
 typedef enum _Direction Direction;
 
+const char* getDirectionAsString(Direction direction);
+
 #endif

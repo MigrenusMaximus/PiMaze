@@ -13,12 +13,13 @@ struct _Grid {
 	int height;
 	/* Sirina u blokovima */
 	int width;
-	/* Matrica blokova */
-	Block** blocks;
+	/* Matrica blokova, koristimo row-major
+	   metodu pristupa */
+	Block* blocks;
 };
 
 typedef struct _Grid Grid;
 
-Grid setGrid(int height, int width, Block** blocks);
+Grid setGrid(int height, int width, Block* blocks);
 
 #endif
