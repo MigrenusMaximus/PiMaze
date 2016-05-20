@@ -7,7 +7,9 @@
 
 #include <stdint.h>
 
-/* Specifikacija formata http://netpbm.sourceforge.net/doc/ppm.html */
+/*  Specifikacija formata http://netpbm.sourceforge.net/doc/ppm.html
+ *  PPM format se koristi samo za testiranje render pipelinea
+ */
 
 struct _PPMData {
     int maxColor;

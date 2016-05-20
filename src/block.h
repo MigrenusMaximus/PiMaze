@@ -19,6 +19,7 @@ struct _Block {
 
 typedef struct _Block Block;
 
+/* Konstruktor za Block */
 Block setBlock(BOOL isWall, Texture* texture, BOOL isVisited);
 
 #endif

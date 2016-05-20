@@ -10,12 +10,12 @@ struct _Texture {
 	/* Sirina teksture */
 	int width;
 	/* Matricna reprezentacija teksture */
-	Color** colorMap;
+	Color *colorMap;
 };
 
 typedef struct _Texture Texture;
 
 /* Postavljanje teksture iz mape boja i njenih dimenzija */
-Texture setTexture(Color** colorMap, int height, int width);
+Texture setTexture(Color *colorMap, int height, int width);
 
 #endif

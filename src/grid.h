@@ -20,6 +20,7 @@ struct _Grid {
 
 typedef struct _Grid Grid;
 
+/* Konstruktor za Grid */
 Grid setGrid(int height, int width, Block* blocks);
 
 #endif
