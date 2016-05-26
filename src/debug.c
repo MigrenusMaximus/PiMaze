@@ -16,8 +16,27 @@ void printMaze(Grid *maze) {
             }
             printf("%c", (maze->blocks[i * maze->width + j].isWall == TRUE ? '+' : ' '));
         }
+        // printf("  Ispisan %d-ti red\n", i);
         printf("\n");
-        //printf("\n");        
+    }
+    printf("\n");
+}
+
+void printGame(Game *game) {
+    for (int i = 0; i < game->maze->height; i++) {
+        for (int j = 0; j < game->maze->width; j++) {
+            // if(game->maze->blocks[i * game->maze->width + j].isWall == -1) {
+            //     printf("S");
+            //     continue;
+            // }
+            if (game->player.row == i && game->player.column == j) {
+                printf("P");
+                continue;
+            }
+            printf("%c", (game->maze->blocks[i * game->maze->width + j].isWall == TRUE ? '+' : ' '));
+        }
+        // printf("  Ispisan %d-ti red\n", i);
+        printf("\n");
     }
     printf("\n");
 }

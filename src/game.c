@@ -2,21 +2,30 @@
 
 #include "generator.h"
 
-Player setPlayer(int row, int column, int xPos, int yPos, float rotation) {
+#include <stdlib.h> /* malloc i free */
+
+#include "debug.h"
+
+Player setPlayer(int row, int column, Direction direction) {
     Player newPlayer;
     
     newPlayer.row = row;
     newPlayer.column = column;
-    newPlayer.xPos = xPos;
-    newPlayer.yPos = yPos;
-    newPlayer.rotation = rotation;
+    newPlayer.direction = direction;
     
     return newPlayer;   
 }
 
-Game setGame(int mazeHeight, int mazeWidth, int displayHeight, int displayWidth, int blockSize) {
+Game setGame(int mazeHeight, int mazeWidth) {
     Game newGame;
     /* Generisanje labirinta */
-    Grid maze = generateMaze(mazeHeight, mazeWidth);
-    
+    newGame.maze = (Grid*) malloc(sizeof(Grid));
+    *newGame.maze = generateMaze(mazeHeight, mazeWidth);
+    /* Generisanje igraca */
+    newGame.player = setPlayer(0, 1, DOWN);
+    return newGame;
+}
+
+void destroyGame(Game *game) {
+    free(game->maze);
 }

@@ -1,3 +1,3 @@
-gcc -c *.c -std=c99
-gcc -o test *.o -std=c99
+gcc -Wall -c *.c -std=c99
+gcc -Wall -o test *.o -std=c99
 cleanup.bat

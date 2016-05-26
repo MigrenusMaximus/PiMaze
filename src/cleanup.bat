@@ -19,4 +19,4 @@ rem 2>NUL del *.exe
 2>NUL del *.i*86
 2>NUL del *.x86_64
 2>NUL del *.hex
-echo "Cleanup complete"
+echo Cleanup complete

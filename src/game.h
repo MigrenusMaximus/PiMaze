@@ -9,26 +9,22 @@ struct _Player {
     /* Pozicija u labirintu */
     int row;
     int column;
-    /* Trenutna pozicija igraca unutar bloka */
-    int xPos;
-    int yPos;
-    /* Smjer u kojem igrac gleda (0 - 360) */
-    float rotation;      
+    /* Smjer u kojem igrac gleda */
+    Direction direction;      
 };
 
 typedef struct _Player Player;
 
 /* Konstruktor za Player */
-Player setPlayer(int row, int column, int xPos, int yPos, float rotation);
+Player setPlayer(int row, int column, Direction direction);
 
 struct _Game {
-    Grid maze;
-    /* Velicina pojedinacnog bloka */
-    int blockSize;
+    /* Labirint */
+    Grid *maze;
     /* Da li je igrac dosao do kraja labirinta */
     BOOL hasWon;
     /* Ovo koristimo da znamo da li da
-       pollamo za nove movement komande */
+       prikazujemo meni ili igru */
     BOOL isPaused;
     /* Informacije o igracu drzimo u
        odvojenoj strukturi, posto se one uvijek
@@ -39,8 +35,10 @@ struct _Game {
 typedef struct _Game Game;
 
 /* Konstruktor za Game */
-Game setGame(int mazeHeight, int mazeWidth, int displayHeight, int displayWidth, int blockSize);
-
+Game setGame(int mazeHeight, int mazeWidth);
+/* Destruktor za Game */
+void destroyGame(Game *game);
+/* Game loop */
 void play();
 
 #endif
