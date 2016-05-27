@@ -75,7 +75,7 @@ int main(int argc, char** argv) {
             }
         }        
     } */
-    drawPolygon(&ppm, setColor(255, 255, 0), xMin, xMax, yMin, yMin, width, height);
+    drawPolygon(&ppm, setColor(0, 255, 0), xMin, xMax, yMin, yMin, width, height);
     
     int top, bottom, left, right;
     int oldTop = 0, oldBottom = height - 1, oldLeft = diff, oldRight = width - diff;
@@ -99,23 +99,27 @@ int main(int argc, char** argv) {
         //[(dim + newGame.player.row + 1) * newGame.maze->width + 1].isWall == TRUE
         if (newGame.maze->blocks[(i + newGame.player.row + 1) * newGame.maze->width + 2].isWall == TRUE) {
             drawPolygon(&ppm, setColor(0, 255, 255), oldLeft, left, oldTop, top, width, height);
-            drawPolygon(&ppm, setColor(0, 255, 255), oldLeft, left, oldBottom, bottom, width, height);
+            //drawPolygon(&ppm, setColor(0, 255, 255), oldLeft, left, oldBottom, bottom, width, height);
             if (oldLeft == diff) 
                 drawPolygon(&ppm, setColor(0, 255, 255), 0, oldLeft, 0, 0, width, height);
         } else {
-            if (oldLeft == diff) oldLeft = 0;
-            drawPolygon(&ppm, setColor(0, 255, 0), oldLeft, left, top, top, width, height);
-            drawPolygon(&ppm, setColor(0, 255, 0), oldLeft, left, bottom, bottom, width, height);
+            if (oldLeft == diff) 
+                drawPolygon(&ppm, setColor(0, 255, 0), 0, left, top, top, width, height);
+            else
+                drawPolygon(&ppm, setColor(0, 255, 0), oldLeft + 1, left, top, top, width, height);
+            //drawPolygon(&ppm, setColor(0, 255, 0), oldLeft, left, bottom, bottom, width, height);
         }
         if (newGame.maze->blocks[(i + newGame.player.row + 1) * newGame.maze->width + 0].isWall == TRUE) {
             drawPolygon(&ppm, setColor(0, 255, 255), oldRight, right, oldTop, top, width, height);
-            drawPolygon(&ppm, setColor(0, 255, 255), oldRight, right, oldBottom, bottom, width, height);
+            //drawPolygon(&ppm, setColor(0, 255, 255), oldRight, right, oldBottom, bottom, width, height);
             if (oldRight == width - diff) 
                 drawPolygon(&ppm, setColor(0, 255, 255), oldRight, width - 1, 0, 0, width, height);
         } else {
-            if (oldRight == width - diff) oldRight = width - 1;
-            drawPolygon(&ppm, setColor(0, 255, 0), oldRight, right, top, top, width, height);
-            drawPolygon(&ppm, setColor(0, 255, 0), oldRight, right, bottom, bottom, width, height);
+            if (oldRight == width - diff) 
+                drawPolygon(&ppm, setColor(0, 255, 0), oldRight, width - 1, top, top, width, height);
+            else    
+                drawPolygon(&ppm, setColor(0, 255, 0), oldRight, right - 1, top, top, width, height);
+            //drawPolygon(&ppm, setColor(0, 255, 0), oldRight, right, bottom, bottom, width, height);
         }
         oldBottom = bottom;
         oldTop = top;
@@ -125,17 +129,17 @@ int main(int argc, char** argv) {
     
     if (newGame.maze->blocks[(dim + newGame.player.row + 1) * newGame.maze->width + 2].isWall == TRUE) {
         drawPolygon(&ppm, setColor(0, 255, 255), oldLeft, xMin, oldTop, yMin, width, height);
-        drawPolygon(&ppm, setColor(0, 255, 255), oldLeft, xMin, oldBottom, yMax, width, height);
+        //drawPolygon(&ppm, setColor(0, 255, 255), oldLeft, xMin, oldBottom, yMax, width, height);
     } else {
-        drawPolygon(&ppm, setColor(0, 255, 0), oldLeft, xMin, yMin, yMin, width, height);
-        drawPolygon(&ppm, setColor(0, 255, 0), oldLeft, xMin, yMax, yMax, width, height);
+        drawPolygon(&ppm, setColor(0, 255, 0), oldLeft + 1, xMin, yMin, yMin, width, height);
+        //drawPolygon(&ppm, setColor(0, 255, 0), oldLeft, xMin, yMax, yMax, width, height);
     }
     if (newGame.maze->blocks[(dim + newGame.player.row + 1) * newGame.maze->width + 0].isWall == TRUE) {
-        drawPolygon(&ppm, setColor(0, 255, 255), oldRight, xMax, oldTop, yMin, width, height);
-        drawPolygon(&ppm, setColor(0, 255, 255), oldRight, xMax, oldBottom, yMax, width, height);
+        drawPolygon(&ppm, setColor(0, 255, 255), oldRight, xMax + 1, oldTop, yMin, width, height);
+        //drawPolygon(&ppm, setColor(0, 255, 255), oldRight, xMax, oldBottom, yMax, width, height);
     } else {
         drawPolygon(&ppm, setColor(0, 255, 255), oldRight, xMax, yMin, yMin, width, height);
-        drawPolygon(&ppm, setColor(0, 255, 255), oldRight, xMax, yMax, yMax, width, height);
+        //drawPolygon(&ppm, setColor(0, 255, 255), oldRight, xMax, yMax, yMax, width, height);
     }
     
     writePPM(&ppm, "distance_test.ppm");
