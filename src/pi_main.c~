@@ -65,7 +65,7 @@ void set_blocking (int fd, int should_block) {
 int main(int argc, char **argv) {
 	char portname[20] = "/dev/";
 	if (argv[1] == NULL) {
-		printf("Usage: ./pi_main <serial_port>\n");
+		printf("Usage: ./pi_main <serial_port>");
 		return -1;
 	}
 	else
