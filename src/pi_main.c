@@ -64,32 +64,40 @@ void set_blocking (int fd, int should_block) {
 
 int main(int argc, char **argv) {
 	char portname[20] = "/dev/";
+    
 	if (argv[1] == NULL) {
 		printf("Usage: ./pi_main <serial_port>\n");
 		return -1;
 	}
-	else
+	else {
 		strcat(portname, argv[1]);
-	printf("%s\n", portname);
-	return 0;
+    }
+    
+	printf("Listening on port %s\n", portname);
 
 	int fd = open (portname, O_RDWR | O_NOCTTY | O_SYNC);
 
 	if (fd < 0) {
-	    printf("Hi\n");
+	    printf("Greska\n");
 	    //error_message ("error %d opening %s: %s", errno, portname, strerror (errno));
 	    return 0;
 	}
-
+    
+    Game game = setGame(10, 10);
+    printGame(&newGame);
+    
 	set_interface_attribs (fd, B115200, 0);  // set speed to 115,200 bps, 8n1 (no parity)
-	set_blocking (fd, 0);                // set no blocking
+	set_blocking (fd, 0);                    // set no blocking
+    
+    for (int i = 0; i < game.maze->height; i++) {
+        for (int j = 0; j < game.maze->width; j++) {
+            write(fd, game.maze->blocks[i * game.maze->width + j].isWall == TRUE ? "W" : " ", 1);
+        }
+    }
+    usleep ((23 * 23 + 6) * 100); // cekamo da se posalje i da primimo joystate
 
-	write (fd, "hello!\n", 7);           // send 7 character greeting
-
-	usleep ((7 + 25) * 100);             // sleep enough to transmit the 7 plus
-		                             // receive 25:  approx 100 uS per char transmit
-	char buf [100];
-	int n = read (fd, buf, sizeof(buf));  // read up to 100 characters if ready to read
+	char buf [6];
+	int n = read (fd, buf, sizeof(buf));     // read up to 100 characters if ready to read
 	printf("%s\n", buf);
 	printf("Done\n");
 	return 0;
